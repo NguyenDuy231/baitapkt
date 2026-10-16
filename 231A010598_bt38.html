@@ -1,0 +1,83 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Game kiem tra toc do</title>
+    <style>
+        #arena {
+            width: 600px;
+            height: 400px;
+            background: lightblue;
+            position: relative;
+            border: 2px solid blue;
+        }
+        #nut {
+            width: 30px;
+            height: 30px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Game kiem tra toc do</h2>
+    <p>Diem: <span id="diem">0</span></p>
+    <p>Thoi gian: <span id="tg">30</span> giay</p>
+    <button id="batdau" onclick="batDau()">Bat dau tro choi</button>
+    <br><br>
+    <div id="arena">
+        <button id="nut" onclick="tangDiem()"></button>
+    </div>
+    <p id="kq"></p>
+    <script>
+        let diem = 0;
+        let tg = 30;
+        let dangChoi = false;
+        let dongHo;
+        let doiCho;
+        function diChuyen() {
+            let nut = document.getElementById("nut");
+            let x = Math.random() * 570;
+            let y = Math.random() * 370;
+            nut.style.left = x + "px";
+            nut.style.top = y + "px";
+        }
+        function batDau() {
+            clearInterval(dongHo);
+            clearInterval(doiCho);
+            diem = 0;
+            tg = 30;
+            dangChoi = true;
+            document.getElementById("diem").innerHTML = diem;
+            document.getElementById("tg").innerHTML = tg;
+            document.getElementById("kq").innerHTML = "";
+            document.getElementById("batdau").disabled = true;
+            document.getElementById("nut").style.display = "block";
+            diChuyen();
+            doiCho = setInterval(diChuyen, 1000);
+            dongHo = setInterval(function() {
+                tg--;
+                document.getElementById("tg").innerHTML = tg;
+                if (tg == 0) {
+                    clearInterval(dongHo);
+                    clearInterval(doiCho);
+                    dangChoi = false;
+                    document.getElementById("nut").style.display = "none";
+                    document.getElementById("batdau").disabled = false;
+                    document.getElementById("kq").innerHTML =
+                        "Het gio! Tong diem: " + diem;
+                }
+            }, 1000);
+        }
+        function tangDiem() {
+            if (dangChoi) {
+                diem++;
+                document.getElementById("diem").innerHTML = diem;
+                diChuyen();
+            }
+        }
+    </script>
+</body>
+</html>
